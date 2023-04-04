@@ -1,5 +1,7 @@
 package com.business.santoshenterprises.model;
 
+import java.util.Arrays;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -78,6 +80,12 @@ public class Courier {
     public void setRecordNo(int recordNo) {
         this.recordNo = recordNo;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Courier [recordNo=" + recordNo + ", courierTrackingId=" + courierTrackingId + ", courierName="
+                + courierName + ", courierReceipt=" + Arrays.toString(courierReceipt) + ", consignmentDispatch="
+                + consignmentDispatch + "]";
+    }
+
 }

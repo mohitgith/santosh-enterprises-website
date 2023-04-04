@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SantoshEnterprisesApplication<santosh-enterprises>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.business.santoshenterprises.SantoshEnterprisesApplication",
+            "projectName": "santosh-enterprises",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

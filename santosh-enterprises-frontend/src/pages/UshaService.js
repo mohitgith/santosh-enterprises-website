@@ -11,6 +11,7 @@ const UshaService = ({ products }) => {
     const [netPrice, setNetPrice] = useState(0);
     const [partNum, setPartNum] = useState('');
     const [price, setPrice] = useState('');
+    const [courierId, setCourierId] = useState('');
 
     const dispayData = products.map((partNo) => {
         return (
@@ -42,10 +43,24 @@ const UshaService = ({ products }) => {
         setNetPrice((quantity * e.target.value) + tax);
     }
 
+    const handleChildData = (data) => {
+        setCourierId(data);
+    }
+
     const handleSaveClick = () => {
 
-        let data = { dispatchDate, invoiceNo, invoiceDate, partNum, productName, quantity, price, netPrice };
-        console.log(data);
+        let data = {
+            invoiceNo: invoiceNo,
+            invoiceDate: invoiceDate,
+            partNo: partNum,
+            partName: productName,
+            quantity: quantity,
+            price: price,
+            netPrice: netPrice,
+            dispatchDate: dispatchDate,
+            courierId: courierId
+        };
+        console.log("Consignment Data: ", data);
 
         fetch("/consignment", {
             method: 'POST',
@@ -117,7 +132,7 @@ const UshaService = ({ products }) => {
                         <input className="form-control" type="text" value={netPrice} aria-label="readonly input example" readOnly />
                     </div>
                     <div className="col-md-12">
-                        <AddCourierAccordian />
+                        <AddCourierAccordian onChildData={handleChildData} />
                     </div>
                     <div className="col-1 me-3">
                         <button type="submit" className="btn btn-dark" onClick={handleSaveClick}>Save</button>

@@ -21,11 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.business.santoshenterprises.model.Product;
 import com.business.santoshenterprises.repository.ProductRepository;
 
-
 @RestController
 @CrossOrigin
 @RequestMapping("/product")
-public class ProductController implements CommandLineRunner{
+public class ProductController implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
@@ -33,19 +32,18 @@ public class ProductController implements CommandLineRunner{
     @Override
     public void run(String... args) throws Exception {
         productRepository.saveAll(Arrays.asList(
-            new Product("7100STRIKER018", "STRIKER MOTOR HI-SPEED STRIKER PF"),
-            new Product("710D96STRIKR81", "STRIKER WF MOTOR HI-SPEED WF"),
-            new Product("740D95MISTY31", "LOCKING FLANGE"),
-            new Product("740D95MISTY41", "ELEMENT GASKET"),
-            new Product("740DCJ2000WTC41", "MAINBOARD-CJ2000WTC"),
-            new Product("740DCJ2000WTC51", "DISPLAY BOARD"),
-            new Product("740I74CJ200081", "MAIN CONTROL BOARD ASSEMBLY"),
-            new Product("71200W5119904Z", "MOTOR ASSYWITHOUTGEARBOX-400W/F MIST"),
-            new Product("740DCJ1600WPC71", "DC FAN-CJ1600WPC"),
-            new Product("7400QH3002604U", "QUARTZ TUBE")
-        ));
+                new Product("7100STRIKER018", "STRIKER MOTOR HI-SPEED STRIKER PF"),
+                new Product("710D96STRIKR81", "STRIKER WF MOTOR HI-SPEED WF"),
+                new Product("740D95MISTY31", "LOCKING FLANGE"),
+                new Product("740D95MISTY41", "ELEMENT GASKET"),
+                new Product("740DCJ2000WTC41", "MAINBOARD-CJ2000WTC"),
+                new Product("740DCJ2000WTC51", "DISPLAY BOARD"),
+                new Product("740I74CJ200081", "MAIN CONTROL BOARD ASSEMBLY"),
+                new Product("71200W5119904Z", "MOTOR ASSYWITHOUTGEARBOX-400W/F MIST"),
+                new Product("740DCJ1600WPC71", "DC FAN-CJ1600WPC"),
+                new Product("7400QH3002604U", "QUARTZ TUBE")));
     }
-    
+
     @GetMapping("/{productNo}")
     public String getProductName(@PathVariable String productNo) {
         Product product = productRepository.findByProductNo(productNo);
@@ -62,7 +60,7 @@ public class ProductController implements CommandLineRunner{
     public ResponseEntity<Product> addProduct(@RequestBody Product product) throws URISyntaxException {
         ResponseEntity<Product> responseEntity = null;
         Product responseBody;
-        if (!productRepository.existsProductByProductNo(product.getProductNo())){
+        if (!productRepository.existsProductByProductNo(product.getProductNo())) {
             responseBody = productRepository.save(product);
             responseEntity = ResponseEntity.created(new URI("/product/" + product.getProductNo())).body(responseBody);
             System.out.println("Response Body: " + responseBody);
@@ -74,10 +72,11 @@ public class ProductController implements CommandLineRunner{
     }
 
     @PutMapping("/{productNo}")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable String productNo) throws URISyntaxException {
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable String productNo)
+            throws URISyntaxException {
         ResponseEntity<Product> responseEntity = null;
         Product responseBody;
-        if (productRepository.existsProductByProductNo(product.getProductNo())){
+        if (productRepository.existsProductByProductNo(product.getProductNo())) {
             responseBody = productRepository.save(product);
             responseEntity = ResponseEntity.created(new URI("/product/" + product.getProductNo())).body(responseBody);
             System.out.println("Response Body: " + responseBody);
@@ -90,25 +89,25 @@ public class ProductController implements CommandLineRunner{
 
     // @GetMapping("/product/allProductNo")
     // public List<String> getAllProductNo() {
-    //     List<String> productNo = new ArrayList<>();
-    //     Iterator i = getAllProduct().iterator();
-    //     while(i.hasNext()) {
-    //         Product product = (Product) i.next();
-    //         System.out.println(product.getProductId());
-    //         productNo.add(product.getProductId());
-    //     }
-    //     return productNo;
+    // List<String> productNo = new ArrayList<>();
+    // Iterator i = getAllProduct().iterator();
+    // while(i.hasNext()) {
+    // Product product = (Product) i.next();
+    // System.out.println(product.getProductId());
+    // productNo.add(product.getProductId());
+    // }
+    // return productNo;
     // }
 
     // @GetMapping("/product/allProductName")
     // public List<String> getAllProductName() {
-    //     List<String> productName = new ArrayList<>();
-    //     Iterator i = getAllProduct().iterator();
-    //     while(i.hasNext()) {
-    //         Product product = (Product) i.next();
-    //         System.out.println(product.getProductName());
-    //         productName.add(product.getProductName());
-    //     }
-    //     return productName;
+    // List<String> productName = new ArrayList<>();
+    // Iterator i = getAllProduct().iterator();
+    // while(i.hasNext()) {
+    // Product product = (Product) i.next();
+    // System.out.println(product.getProductName());
+    // productName.add(product.getProductName());
+    // }
+    // return productName;
     // }
 }

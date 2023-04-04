@@ -2,13 +2,20 @@ import React, { useState } from 'react';
 import AddCourierModal from './AddCourierModal';
 import '../styles/Buttons.css'
 
-const AddCourierAccordian = () => {
+const AddCourierAccordian = (props) => {
 
     const [access, setAccess] = useState(false);
     const [selectedOption, setSelectedOption] = useState('existing');
+    // const [modalData, setModalData] = useState(null);
+
+    const handleModalData = (data) => {
+        // setModalData(data);
+        props.onChildData(data);
+        console.log("Accordian: ", data);
+    }
 
     const handleClick = (e) => {
-        console.log("Value: ",e.target.value);
+        console.log("Value: ", e.target.value);
         setSelectedOption(e.target.value);
         if (selectedOption === "new") {
             setAccess(false);
@@ -33,8 +40,6 @@ const AddCourierAccordian = () => {
                             <div className="row">
                                 <div className="col-md-2">
                                     <div className="form-check">
-                                        {/* <input type="radio" className="btn-check" name="options-outlined" id="existing-rb" value='existing' autoComplete="off" onChange={handleClick} checked={selectedOption === 'existing'} />
-                                        <label className="btn btn-outline-dark" htmlFor="success-outlined">Existing</label> */}
                                         <input className="form-check-input" type="radio" name="flexRadioDefault" id="existing-rb" value='existing' onChange={handleClick} checked={selectedOption === 'existing'} />
                                         <label className="form-check-label" htmlFor="flexRadioDefault1">
                                             Existing
@@ -43,12 +48,11 @@ const AddCourierAccordian = () => {
                                 </div>
                                 <div className="col-md-2">
                                     <div className="form-check">
-                                        {/* <input type="radio" className="btn-check" name="options-outlined" id="new-rb" value='new' autoComplete="off" onChange={handleClick} checked={selectedOption === 'new'}/>
-                                        <label className="btn btn-outline-dark" htmlFor="success-outlined">New</label> */}
-                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="new-rb" value='new' onChange={handleClick} checked={selectedOption === 'new'} data-bs-toggle="modal" data-bs-target="#staticBackdrop"/>
+                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="new-rb" value='new' onChange={handleClick} checked={selectedOption === 'new'} data-bs-toggle="modal" data-bs-target="#staticBackdrop" />
                                         <label className="form-check-label" htmlFor="flexRadioDefault1">
                                             New
                                         </label>
+                                        <AddCourierModal handleModalData={handleModalData} />
                                     </div>
                                 </div>
                                 <div className="col-md-6">

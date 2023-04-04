@@ -1,0 +1,17 @@
+.btn {
+    background-color: #454545;
+    color: #FBEAAB;
+    font-family: Raleway;
+}
+
+.accordion-button {
+    background-color: #454545;
+    color: #FBEAAB;
+    font-family: Raleway;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #454545;
+    color: #FBEAAB;
+    font-family: Raleway;
+}

@@ -1,0 +1,33 @@
+.table-dark {
+    background-color: #454545;
+    color: #FBEAAB;
+    font-family: Raleway;
+}
+
+.table {
+    /* background-color: #FBEAAB; */
+    color: #454545;
+    font-family: Raleway;
+}
+
+.table > thead {
+    background-color: #454545;
+    color: #FBEAAB;
+    font-family: Raleway;
+}
+
+.form-label {
+    font-family: Raleway;
+}
+.form-control {
+    font-family: Raleway;
+}
+
+.form-select {
+    font-family: Raleway;
+}
+
+.modal{
+    color: #454545;
+    font-family: Raleway; 
+}

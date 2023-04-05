@@ -13,7 +13,6 @@ const AddCourierModal = ({ handleModalData }) => {
         for (let i = 0; i < bytes.byteLength; i++) {
             byteArray.push(bytes[i]);
         }
-
         return byteArray;
     }
 
@@ -32,47 +31,13 @@ const AddCourierModal = ({ handleModalData }) => {
 
     const handleSubmit = () => {
 
-        handleModalData(courierId);
-
         let data = {
             courierTrackingId: courierId,
             courierName: courierName,
             courierReceipt: courierReceipt
         }
 
-        // const data = new FormData();
-        // data.append('courierTrackingId', courierId);
-        // data.append('courierName', courierName);
-        // data.append('courierReceipt', courierReceipt);
-
-        console.log("Courier Data: ", data);
-
-        fetch("/consignment/courier", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }, body: JSON.stringify(data)
-        })
-            .then((response) => {
-                if (response.status === 201) {
-                    console.log("Courier Entry Added.");
-                }
-                // else if (response.status === 409) {
-                //     console.log("Courier Already exist.");
-                // } 
-                else {
-                    console.log(response.status);
-                    // throw new Error("Something went wrong.")
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
+        handleModalData(data);
     }
 
     return (

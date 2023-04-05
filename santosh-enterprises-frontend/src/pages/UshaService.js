@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import AddCourierAccordian from './AddCourierAccordian';
+import "../styles/Divider.css"
 
 const UshaService = ({ products }) => {
 
@@ -11,7 +12,17 @@ const UshaService = ({ products }) => {
     const [netPrice, setNetPrice] = useState(0);
     const [partNum, setPartNum] = useState('');
     const [price, setPrice] = useState('');
-    const [courierId, setCourierId] = useState('');
+    const [courierData, setCourierData] = useState();
+    const [submitData, setSubmitData] = useState(false);
+    const [today, setToday] = useState('');
+    const [fiveYearsAgoStr, setFiveYearsAgoStr] = useState('');
+
+    const dataRange = () => {
+        setToday(new Date().toISOString().slice(0, 10)); // Get today's date
+        const fiveYearsAgo = new Date();
+        fiveYearsAgo.setFullYear(fiveYearsAgo.getFullYear() - 5);
+        setFiveYearsAgoStr(fiveYearsAgo.toISOString().slice(0, 10));
+    }
 
     const dispayData = products.map((partNo) => {
         return (
@@ -19,11 +30,9 @@ const UshaService = ({ products }) => {
         )
     })
 
-
     const handleChange = (e) => {
         let product = products.find(data => data.productNo === e.target.value);
         if (product !== undefined) {
-            console.log(product.productNo, product.productName);
             setPartNum(product.productNo);
             setProductName(product.productName);
         }
@@ -43,11 +52,27 @@ const UshaService = ({ products }) => {
         setNetPrice((quantity * e.target.value) + tax);
     }
 
-    const handleChildData = (data) => {
-        setCourierId(data);
+    const handleChildData = (courierObj) => {
+        setCourierData(courierObj);
     }
 
-    const handleSaveClick = () => {
+    const validateData = (data) => {
+        if ((data.invoiceNo === null || data.invoiceNo === "") ||
+            (data.invoiceDate === null || data.invoiceDate === "") ||
+            (data.partNo === null || data.partNo === "") ||
+            (data.partName === null || data.partName === "") ||
+            (data.quantity === null || data.quantity === "") ||
+            (data.price === null || data.price === "") ||
+            (data.netPrice === null || data.netPrice === "") ||
+            (data.dispatchDate === null || data.dispatchDate === "") ||
+            (data.courier === null || data.courier === {})) {
+            setSubmitData(false)
+        } else {
+            setSubmitData(true);
+        }
+    }
+
+    const handleSaveClick = async (e) => {
 
         let data = {
             invoiceNo: invoiceNo,
@@ -58,31 +83,39 @@ const UshaService = ({ products }) => {
             price: price,
             netPrice: netPrice,
             dispatchDate: dispatchDate,
-            courierId: courierId
+            courier: courierData
         };
         console.log("Consignment Data: ", data);
 
-        fetch("/consignment", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }, body: JSON.stringify(data)
-        })
-            .then((response) => {
-                if (response.status === 201) {
-                    console.log("Entry Added.");
-                }
-                else if (response.status === 409) {
-                    console.log("Already exist.");
-                } else {
-                    console.log(response.status);
-                    throw new Error("Something went wrong.")
-                }
+        validateData(data);
+
+        console.log(submitData);
+
+        if (submitData === false) {
+            e.preventDefault();
+        } else {
+            await fetch("/consignment", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }, body: JSON.stringify(data)
             })
-            .catch((error) => {
-                console.error(error);
-            })
+                .then((response) => {
+                    if (response.status === 201) {
+                        console.log("Entry Added.");
+                    }
+                    else if (response.status === 409) {
+                        console.log("Already exist.");
+                    } else {
+                        console.log(response.status);
+                        throw new Error("Something went wrong.")
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
+        }
     }
 
     return (
@@ -93,7 +126,7 @@ const UshaService = ({ products }) => {
                     <h3>New Consignment Dispatch</h3>
                     <div className="col-md-4">
                         <label htmlFor="dispatch-date" className="form-label">Dispatch Date</label>
-                        <input type="date" className="form-control" id="dispatch-date" value={dispatchDate} onChange={(e) => setDispatchDate(e.target.value)} required />
+                        <input type="date" className="form-control" id="dispatch-date" value={dispatchDate} min={fiveYearsAgoStr} max={today} onClick={dataRange} onChange={(e) => setDispatchDate(e.target.value)} required />
                     </div>
                     <div className="col-md-4">
                         <label htmlFor="invoice-no" className="form-label">Invoice No.</label>
@@ -101,7 +134,7 @@ const UshaService = ({ products }) => {
                     </div>
                     <div className="col-md-4">
                         <label htmlFor="invoice-date" className="form-label">Invoice Date</label>
-                        <input type="date" className="form-control" id="invoice-date" value={invoiceDate} onChange={(e) => setInvoiceDate(e.target.value)} required />
+                        <input type="date" className="form-control" id="invoice-date" value={invoiceDate} min={fiveYearsAgoStr} max={today} onClick={dataRange} onChange={(e) => setInvoiceDate(e.target.value)} required />
                     </div>
                     <div className="col-md-6">
                         <label htmlFor="part-no" className="form-label">Part No.</label>
@@ -132,14 +165,15 @@ const UshaService = ({ products }) => {
                         <input className="form-control" type="text" value={netPrice} aria-label="readonly input example" readOnly />
                     </div>
                     <div className="col-md-12">
+                        {/* <hr data-content="Courier Info" class="hr-text" /> */}
                         <AddCourierAccordian onChildData={handleChildData} />
                     </div>
                     <div className="col-1 me-3">
                         <button type="submit" className="btn btn-dark" onClick={handleSaveClick}>Save</button>
                     </div>
-                    <div className="col-1">
+                    {/* <div className="col-1">
                         <button type="submit" className="btn btn-dark">Export</button>
-                    </div>
+                    </div> */}
                 </form>
                 <br />
                 <br />

@@ -6,25 +6,42 @@ const AddCourierAccordian = (props) => {
 
     const [access, setAccess] = useState(false);
     const [selectedOption, setSelectedOption] = useState('existing');
-    // const [modalData, setModalData] = useState(null);
+    // const [couriers, setCouriers] = useState([]);
 
     const handleModalData = (data) => {
-        // setModalData(data);
         props.onChildData(data);
-        console.log("Accordian: ", data);
     }
 
     const handleClick = (e) => {
-        console.log("Value: ", e.target.value);
+        // console.log("Value: ", e.target.value);
         setSelectedOption(e.target.value);
         if (selectedOption === "new") {
             setAccess(false);
-            console.log(access);
+            // console.log(access);
         } else {
             setAccess(true);
-            console.log(access);
+            // console.log(access);
         }
     }
+
+    // useEffect(() => {
+    //     fetch('/consignment/courier/all')
+    //         .then((response) => {
+    //             return response.json();
+    //         })
+    //         .then((data) => {
+    //             console.log(data);
+    //             setCouriers(data);
+    //         }).catch((error) => {
+    //             console.log(error);
+    //         })
+    // }, []);
+
+    // const dispayData = couriers.map((courier) => {
+    //     return (
+    //         <option key={courier.courierTrackingId} value={courier.courierTrackingId}>{courier.courierTrackingId}</option>
+    //     )
+    // })
 
     return (
         <div>

@@ -36,20 +36,35 @@ public class ConsignmentDispatchController {
         return consignmentDispatchList;
     }
 
+    @GetMapping("/courier/all")
+    public List<Courier> getAllCouriers() {
+        List<Courier> productList = (List<Courier>) courierRepository.findAll();
+        return productList;
+    }
+
     @PostMapping
     public ResponseEntity<ConsignmentDispatch> addDispatchConsignment(
             @RequestBody ConsignmentDispatch consignmentDispatch) throws URISyntaxException {
-        ConsignmentDispatch responseBody = consignmentDispatchRepository.save(consignmentDispatch);
-        return ResponseEntity.created(new URI("/consignment/" + consignmentDispatch.getId())).body(responseBody);
+        ResponseEntity<ConsignmentDispatch> responseEntity = null;
+        ConsignmentDispatch responseBody = null;
+        if (consignmentDispatch.getCourier() != null) {
+            try {
+                courierRepository.save(consignmentDispatch.getCourier());
+                responseBody = consignmentDispatchRepository.save(consignmentDispatch);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            } finally {
+                courierRepository.delete(consignmentDispatch.getCourier());
+                consignmentDispatchRepository.delete(consignmentDispatch);
+            }
+        }
+        if (responseBody != null) {
+            responseEntity = ResponseEntity.created(new URI("/consignment/" + responseBody.getId())).body(responseBody);
+        } else {
+            responseEntity = ResponseEntity.badRequest().build();
+        }
+        return responseEntity;
 
-    }
-
-    @PostMapping("/courier")
-    public ResponseEntity<Courier> addDispatchConsignmentCourier(
-            @RequestBody Courier courier) throws URISyntaxException {
-        // System.out.println("Data for Courier: " + courier);
-        Courier responseBody = courierRepository.save(courier);
-        return ResponseEntity.created(new URI("/consignment/courier" + courier.getRecordNo())).body(responseBody);
     }
 
     // @PutMapping("/consignment/{id}")

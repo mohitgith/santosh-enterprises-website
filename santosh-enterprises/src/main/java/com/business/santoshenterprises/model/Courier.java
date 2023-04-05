@@ -2,6 +2,7 @@ package com.business.santoshenterprises.model;
 
 import java.util.Arrays;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,9 +16,10 @@ public class Courier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int recordNo;
+    private Integer recordNo;
 
     @NotNull(message = "Courier Tracking ID is required")
+    @Column(unique = true)
     private String courierTrackingId;
 
     @NotNull(message = "Courier Name is required")
@@ -73,11 +75,11 @@ public class Courier {
     public Courier() {
     }
 
-    public int getRecordNo() {
+    public Integer getRecordNo() {
         return recordNo;
     }
 
-    public void setRecordNo(int recordNo) {
+    public void setRecordNo(Integer recordNo) {
         this.recordNo = recordNo;
     }
 

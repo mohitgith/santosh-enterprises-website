@@ -4,12 +4,14 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -18,28 +20,28 @@ public class ConsignmentDispatch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @NotNull(message = "Invoice No is required")
-    private long invoiceNo;
+    private Long invoiceNo;
 
     @NotNull(message = "Invoice Date is required")
     private Date invoiceDate;
 
-    @NotNull(message = "Part No is required")
+    @NotEmpty(message = "Part No is required")
     private String partNo;
 
-    @NotNull
+    @NotEmpty
     private String partName;
 
     @NotNull(message = "Quantity is required")
-    private int quantity;
+    private Integer quantity;
 
     @NotNull(message = "Price is required")
-    private double price;
+    private Double price;
 
     @NotNull
-    private double netPrice;
+    private Double netPrice;
 
     @NotNull(message = "Dispatch Date is required")
     private Date dispatchDate;
@@ -47,8 +49,8 @@ public class ConsignmentDispatch {
     public ConsignmentDispatch() {
     }
 
-    public ConsignmentDispatch(long invoiceNo, Date invoiceDate, String partNo, String partName, int quantity,
-            double price, double netPrice, Date dispatchDate, Courier courier) {
+    public ConsignmentDispatch(Long invoiceNo, Date invoiceDate, String partNo, String partName, Integer quantity,
+            Double price, Double netPrice, Date dispatchDate, Courier courier) {
         this.invoiceNo = invoiceNo;
         this.invoiceDate = invoiceDate;
         this.partNo = partNo;
@@ -60,24 +62,24 @@ public class ConsignmentDispatch {
         this.courier = courier;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "courierId", referencedColumnName = "courierTrackingId")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "courierRecordNo", referencedColumnName = "recordNo")
     // @NotNull(message = "Courier is required")
     private Courier courier;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getInvoiceNo() {
+    public Long getInvoiceNo() {
         return invoiceNo;
     }
 
-    public void setInvoiceNo(long invoiceNo) {
+    public void setInvoiceNo(Long invoiceNo) {
         this.invoiceNo = invoiceNo;
     }
 
@@ -105,27 +107,27 @@ public class ConsignmentDispatch {
         this.partName = partName;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public double getNetPrice() {
+    public Double getNetPrice() {
         return netPrice;
     }
 
-    public void setNetPrice(double netPrice) {
+    public void setNetPrice(Double netPrice) {
         this.netPrice = netPrice;
     }
 

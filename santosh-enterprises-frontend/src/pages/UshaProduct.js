@@ -14,9 +14,9 @@ const UshaProduct = ({ products }) => {
                 <td className='text-center'>{partNo.productNo}</td>
                 <td className='text-center'>{partNo.productName}</td>
                 <td className='text-center'>
-                    <div class="btn-group" role="group">
-                        <ModifyProductModal/>
-                        <DeleteProductModal/>
+                    <div className="btn-group" role="group">
+                        <ModifyProductModal />
+                        <DeleteProductModal />
                     </div>
                 </td>
             </tr>
@@ -33,12 +33,12 @@ const UshaProduct = ({ products }) => {
                 <br />
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                     <nav>
-                        <ul class="pagination">
-                            <li class="page-item"><Link class="page-link" to="/product/usha">Previous</Link></li>
-                            <li class="page-item"><Link class="page-link" to="/product/usha">1</Link></li>
-                            <li class="page-item"><Link class="page-link" to="/product/usha">2</Link></li>
-                            <li class="page-item"><Link class="page-link" to="/product/usha">3</Link></li>
-                            <li class="page-item"><Link class="page-link" to="/product/usha">Next</Link></li>
+                        <ul className="pagination">
+                            <li className="page-item"><Link className="page-link" to="/product/usha">Previous</Link></li>
+                            <li className="page-item"><Link className="page-link" to="/product/usha">1</Link></li>
+                            <li className="page-item"><Link className="page-link" to="/product/usha">2</Link></li>
+                            <li className="page-item"><Link className="page-link" to="/product/usha">3</Link></li>
+                            <li className="page-item"><Link className="page-link" to="/product/usha">Next</Link></li>
                         </ul>
                     </nav>
                 </div>

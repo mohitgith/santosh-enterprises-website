@@ -165,15 +165,15 @@ const UshaService = ({ products }) => {
                         <input className="form-control" type="text" value={netPrice} aria-label="readonly input example" readOnly />
                     </div>
                     <div className="col-md-12">
-                        {/* <hr data-content="Courier Info" class="hr-text" /> */}
+                        {/* <hr data-content="Courier Info" className="hr-text" /> */}
                         <AddCourierAccordian onChildData={handleChildData} />
                     </div>
                     <div className="col-1 me-3">
                         <button type="submit" className="btn btn-dark" onClick={handleSaveClick}>Save</button>
                     </div>
-                    {/* <div className="col-1">
+                    <div className="col-1">
                         <button type="submit" className="btn btn-dark">Export</button>
-                    </div> */}
+                    </div>
                 </form>
                 <br />
                 <br />

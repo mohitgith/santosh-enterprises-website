@@ -15,3 +15,8 @@
     color: #FBEAAB;
     font-family: Raleway;
 }
+
+.login-button {
+    display: grid;
+    margin: auto;
+}
